@@ -1,0 +1,978 @@
+openapi: 3.0.1
+info:
+  title: KnowBe4 KMSAT API
+  description: 'KnowBe4’s APIs are REST APIs that allow you to pull phishing, training, user, and group data from the KnowBe4 console.'
+  version: 1.0.0
+externalDocs:
+  url: https://developer.knowbe4.com/rest/reporting
+servers:
+  - url: https://{region}.api.knowbe4.com
+    variables:
+      region:
+        default: us
+        enum:
+          - us
+          - eu
+security:
+  - bearerAuth: [ ]
+paths:
+  /v1/account:
+    get:
+      operationId: getAccount
+      parameters:
+        - name: full
+          in: query
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+  /v1/users:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      operationId: getUsers
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /v1/users/{id}:
+    get:
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /v1/groups:
+    get:
+      summary: This endpoint retrieves a list of all groups in your KnowBe4 account.
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      operationId: getGroups
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+  /v1/groups/{id}:
+    get:
+      operationId: getGroup
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+  /v1/groups/{id}/members:
+    get:
+      operationId: getGroupMembers
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /v1/phishing/campaigns:
+    get:
+      operationId: getPhishingCampaigns
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PhishingCampaign'
+  /v1/phishing/campaigns/{id}:
+    get:
+      operationId: getPhishingCampaign
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhishingCampaign'
+  /v1/phishing/campaigns/{id}/security_tests:
+    get:
+      operationId: getCampaignSecurityTests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityTest'
+  /v1/phishing/security_tests:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      operationId: getPhishingSecurityTests
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityTest'
+  /v1/phishing/security_tests/{id}:
+    get:
+      operationId: getPhishingSecurityTest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Security Test ID
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityTest'
+  /v1/phishing/security_tests/{id}/recipients:
+    get:
+      operationId: getPhishingSecurityTestRecipients
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Security Test ID
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipient'
+  /v1/phishing/security_tests/{id}/recipients/{recipientId}:
+    get:
+      operationId: getPhishingSecurityTestRecipient
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Security Test ID
+          schema:
+            type: integer
+        - name: recipientId
+          in: path
+          required: true
+          description: Recipient ID
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipient'
+  /v1/training/store_purchases:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      operationId: getStorePurchases
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StorePurchase'
+  /v1/training/store_purchases/{id}:
+    get:
+      operationId: getStorePurchase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorePurchase'
+  /v1/training/policies:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      operationId: getTrainingPolicies
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Policy'
+  /v1/training/policies/{id}:
+    get:
+      operationId: getTrainingPolicy
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Policy'
+  /v1/training/campaigns:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      operationId: getTrainingCampaigns
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrainingCampaign'
+  /v1/training/campaigns/{id}:
+    get:
+      operationId: getTrainingCampaign
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingCampaign'
+  /v1/training/enrollments:
+    get:
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/per_page'
+      operationId: getTrainingEnrollments
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Enrollment'
+  /v1/training/enrollments/{id}:
+    get:
+      operationId: getTrainingEnrollment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Enrollment'
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        domains:
+          type: array
+          items:
+            type: string
+        admins:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              first_name:
+                type: string
+              last_name:
+                type: string
+              email:
+                type: string
+        subscription_level:
+          type: string
+        subscription_end_date:
+          type: string
+          format: date
+        number_of_seats:
+          type: integer
+        current_risk_score:
+          type: number
+        risk_score_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/RiskScoreHistory'
+    Enrollment:
+      type: object
+      properties:
+        enrollment_id:
+          type: integer
+        content_type:
+          type: string
+        module_name:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+        campaign_name:
+          type: string
+        enrollment_date:
+          type: string
+          format: date-time
+          nullable: true
+        start_date:
+          type: string
+          format: date-time
+          nullable: true
+        completion_date:
+          type: string
+          format: date-time
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        time_spent:
+          type: integer
+        policy_acknowledged:
+          type: boolean
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        group_type:
+          type: string
+        adi_guid:
+          type: string
+          nullable: true
+        member_count:
+          type: integer
+        current_risk_score:
+          type: number
+        risk_score_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/RiskScoreHistory'
+        status:
+          type: string
+    PhishingCampaign:
+      type: object
+      properties:
+        campaign_id:
+          type: integer
+        name:
+          type: string
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              group_id:
+                type: integer
+              name:
+                type: string
+        last_phish_prone_percentage:
+          type: number
+        last_run:
+          type: string
+          format: date-time
+        status:
+          type: string
+        hidden:
+          type: boolean
+        send_duration:
+          type: string
+        track_duration:
+          type: string
+        frequency:
+          type: string
+        difficulty_filter:
+          type: array
+          items:
+            type: integer
+        create_date:
+          type: string
+          format: date-time
+        psts_count:
+          type: integer
+        psts:
+          type: array
+          items:
+            type: object
+            properties:
+              pst_id:
+                type: integer
+              status:
+                type: string
+              start_date:
+                type: string
+                format: date-time
+              users_count:
+                type: integer
+              phish_prone_percentage:
+                type: number
+    Policy:
+      type: object
+      properties:
+        id:
+          type: integer
+        content_type:
+          type: string
+        name:
+          type: string
+        minimum_time:
+          type: integer
+        default_language:
+          type: string
+        status:
+          type: integer
+    Recipient:
+      type: object
+      properties:
+        receipient_id:
+          type: integer
+        pst_id:
+          type: integer
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            active_directory_guid:
+              type: string
+              nullable: true
+            first_name:
+              type: string
+              nullable: true
+            last_name:
+              type: string
+              nullable: true
+            email:
+              type: string
+              nullable: true
+        template:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        scheduled_at:
+          type: string
+          format: date-time
+          nullable: true
+        delivered_at:
+          type: string
+          format: date-time
+          nullable: true
+        opened_at:
+          type: string
+          format: date-time
+          nullable: true
+        clicked_at:
+          type: string
+          format: date-time
+          nullable: true
+        replied_at:
+          type: string
+          format: date-time
+          nullable: true
+        attachment_opened_at:
+          type: string
+          format: date-time
+          nullable: true
+        macro_enabled_at:
+          type: string
+          format: date-time
+          nullable: true
+        data_entered_at:
+          type: string
+          format: date-time
+          nullable: true
+        vulnerable-plugins_at:
+          type: string
+          format: date-time
+          nullable: true
+        exploited_at:
+          type: string
+          format: date-time
+          nullable: true
+        reported_at:
+          type: string
+          format: date-time
+          nullable: true
+        bounced_at:
+          type: string
+          format: date-time
+          nullable: true
+        ip:
+          type: string
+          nullable: true
+        ip_location:
+          type: string
+          nullable: true
+        browser:
+          type: string
+          nullable: true
+        browser_version:
+          type: string
+          nullable: true
+        os:
+          type: string
+          nullable: true
+    RiskScoreHistory:
+      type: object
+      properties:
+        risk_score:
+          type: number
+        date:
+          type: string
+          format: date
+    SecurityTest:
+      type: object
+      properties:
+        campaign_id:
+          type: integer
+        pst_id:
+          type: integer
+        status:
+          type: string
+        name:
+          type: string
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              group_id:
+                type: integer
+              name:
+                type: string
+        phish_prone_percentage:
+          type: number
+        started_at:
+          type: string
+          format: date-time
+        duration:
+          type: integer
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              category_id:
+                type: integer
+              name:
+                type: string
+        template:
+          type: object
+          properties:
+            id:
+              type: integer
+              nullable: true
+            name:
+              type: string
+              nullable: true
+        landing-page:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+        scheduled_count:
+          type: integer
+        delivered_count:
+          type: integer
+        opened_count:
+          type: integer
+        clicked_count:
+          type: integer
+        replied_count:
+          type: integer
+        attachment_open_count:
+          type: integer
+        macro_enabled_count:
+          type: integer
+        data_entered_count:
+          type: integer
+        vulnerable_plugin_count:
+          type: integer
+        exploited_count:
+          type: integer
+        reported_count:
+          type: integer
+        bounced_count:
+          type: integer
+    StorePurchase:
+      type: object
+      properties:
+        store_purchase_id:
+          type: integer
+        content_type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        duration:
+          type: integer
+        retired:
+          type: boolean
+        retirement_date:
+          type: string
+          format: date-time
+        publish_date:
+          type: string
+          format: date-time
+        publisher:
+          type: string
+        purchase_date:
+          type: string
+          format: date-time
+        policy_urL:
+          type: string
+    TrainingCampaign:
+      type: object
+      properties:
+        campaign_id:
+          type: integer
+        name:
+          type: string
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              group_id:
+                type: integer
+              name:
+                type: string
+        status:
+          type: string
+        modules:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/StorePurchase'
+        content:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/StorePurchase'
+              - $ref: '#/components/schemas/Policy'
+        duration_type:
+          type: string
+        start_date:
+          type: string
+          nullable: true
+          format: date-time
+        end_date:
+          type: string
+          nullable: true
+          format: date-time
+        relative_duration:
+          type: string
+          nullable: true
+        auto_enroll:
+          type: boolean
+        allow_multiple_enrollments:
+          type: boolean
+        completion_percentage:
+          type: integer
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        employee_number:
+          type: string
+          nullable: true
+        first_name:
+          type: string
+          nullable: true
+        last_name:
+          type: string
+          nullable: true
+        job_title:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+        phish_prone_percentage:
+          type: number
+        phone_number:
+          type: string
+          nullable: true
+        extension:
+          type: string
+          nullable: true
+        mobile_phone_number:
+          type: string
+          nullable: true
+        location:
+          type: string
+          nullable: true
+        division:
+          type: string
+          nullable: true
+        manager_name:
+          type: string
+          nullable: true
+        manager_email:
+          type: string
+          nullable: true
+        adi_mangeable:
+          type: boolean
+        adi_guid:
+          type: string
+          nullable: true
+        groups:
+          type: array
+          items:
+            type: integer
+        current_risk_score:
+          type: number
+        aliases:
+          type: array
+          items:
+            type: string
+        joined_on:
+          type: string
+          format: date-time
+        last_sign_in:
+          type: string
+          format: date-time
+          nullable: true
+        status:
+          type: string
+        organization:
+          type: string
+          nullable: true
+        department:
+          type: string
+          nullable: true
+        language:
+          type: string
+          nullable: true
+        comment:
+          type: string
+          nullable: true
+        employee_start_date:
+          type: string
+          format: date-time
+        archived_at:
+          type: string
+          format: date-time
+          nullable: true
+        custom_field_1:
+          type: string
+          nullable: true
+        custom_field_2:
+          type: string
+          nullable: true
+        custom_field_3:
+          type: string
+          nullable: true
+        custom_field_4:
+          type: string
+          nullable: true
+        custom_date_1:
+          type: string
+          nullable: true
+          format: date
+        custom_date_2:
+          type: string
+          nullable: true
+          format: date
+  parameters:
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+    per_page:
+      name: per_page
+      in: query
+      required: false
+      schema:
+        type: integer
+        default: 100
+  headers:
+    X-Request-Id:
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
