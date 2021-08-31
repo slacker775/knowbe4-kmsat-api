@@ -1,0 +1,33 @@
+{
+  "name": "slacker775/knowbe4-kmsat-api",
+  "description": "KnowBe4 KMSAT API",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "dhollis",
+      "email": "slacker775@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "KnowBe4\\Kmsat\\Api\\": "generated/"
+    }
+  },
+  "require-dev": {
+    "jane-php/open-api-3": "~6.3.0",
+    "symfony/flex": "^1.15",
+    "nyholm/psr7": "^1.4",
+    "php-http/logger-plugin": "^1.2",
+    "monolog/monolog": "^2.3",
+    "symfony/http-client": "^5.3"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": "true"
+    }
+  },
+  "require": {
+    "jane-php/open-api-runtime": "~6.3.0"
+  }
+}
