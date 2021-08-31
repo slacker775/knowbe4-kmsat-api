@@ -595,7 +595,7 @@ components:
     Recipient:
       type: object
       properties:
-        receipient_id:
+        recipient_id:
           type: integer
         pst_id:
           type: integer
@@ -785,21 +785,26 @@ components:
           type: string
         duration:
           type: integer
+          nullable: true
         retired:
           type: boolean
         retirement_date:
           type: string
           format: date-time
+          nullable: true
         publish_date:
           type: string
           format: date-time
+          nullable: true
         publisher:
           type: string
+          nullable: true
         purchase_date:
           type: string
           format: date-time
         policy_urL:
           type: string
+          nullable: true
     TrainingCampaign:
       type: object
       properties:
