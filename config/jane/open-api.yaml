@@ -18,7 +18,22 @@ security:
 paths:
   /v1/account:
     get:
+      summary: This endpoint retrieves account data from you Knowbe4 account, including your subscription level, number of seats, risk score history, and more
       operationId: getAccount
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+  /v1/account/risk_score_history:
+    get:
+      summary: This endpoint retrieves your Knowbe4 account risk score history
+      operationId: getAccountRiskScoreHistory
       parameters:
         - name: full
           in: query
@@ -33,13 +48,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Account'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RiskScoreHistory'
   /v1/users:
     get:
+      summary: This endpoint retrieves a list of all users in your KnowBe4 account
+      operationId: getUsers
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/per_page'
-      operationId: getUsers
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - active
+              - archived
+        - name: group_id
+          in: query
+          schema:
+            type: integer
+        - name: expand
+          in: query
+          schema:
+            type: string
+            enum:
+              - group
       responses:
         200:
           description: Success
@@ -54,6 +89,7 @@ paths:
                   $ref: '#/components/schemas/User'
   /v1/users/{id}:
     get:
+      summary: This endpoint retrieves a specific user based on the provided user identifier
       operationId: getUser
       parameters:
         - name: id
@@ -71,12 +107,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+  /v1/users/{id}/risk_score_history:
+    get:
+      summary: This endpoint retrieves risk score history for a specific user based on the provided user identifier
+      operationId: getUserRiskScoreHistory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: full
+          in: query
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RiskScoreHistory'
   /v1/groups:
     get:
       summary: This endpoint retrieves a list of all groups in your KnowBe4 account.
       parameters:
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/per_page'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum:
+              - active
+              - archived
       operationId: getGroups
       responses:
         200:
@@ -92,6 +161,7 @@ paths:
                   $ref: '#/components/schemas/Group'
   /v1/groups/{id}:
     get:
+      summary: This endpoint retrieves a specific group in your KnowBe4 account, based on the provided group identifier
       operationId: getGroup
       parameters:
         - name: id
@@ -111,6 +181,7 @@ paths:
                 $ref: '#/components/schemas/Group'
   /v1/groups/{id}/members:
     get:
+      summary: This endpoint retrieves a list of all users who are members of a specific group
       operationId: getGroupMembers
       parameters:
         - name: id
@@ -132,6 +203,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+  /v1/groups/{id}/risk_score_history:
+    get:
+      summary: This endpoint retrieves risk score history for a specific group in your KnowBe4 account, based on the provided group identifier
+      operationId: getGroupRiskScoreHistory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: full
+          in: query
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Request-Id:
+              $ref: '#/components/headers/X-Request-Id'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RiskScoreHistory'
   /v1/phishing/campaigns:
     get:
       operationId: getPhishingCampaigns
@@ -693,7 +790,7 @@ components:
           type: number
         date:
           type: string
-          format: date
+          format: date-time
     SecurityTest:
       type: object
       properties:

@@ -4,17 +4,6 @@ namespace KnowBe4\Kmsat\Api\Endpoint;
 
 class GetAccount extends \KnowBe4\Kmsat\Api\Runtime\Client\BaseEndpoint implements \KnowBe4\Kmsat\Api\Runtime\Client\Endpoint
 {
-    /**
-     * 
-     *
-     * @param array $queryParameters {
-     *     @var bool $full 
-     * }
-     */
-    public function __construct(array $queryParameters = array())
-    {
-        $this->queryParameters = $queryParameters;
-    }
     use \KnowBe4\Kmsat\Api\Runtime\Client\EndpointTrait;
     public function getMethod() : string
     {
@@ -31,15 +20,6 @@ class GetAccount extends \KnowBe4\Kmsat\Api\Runtime\Client\BaseEndpoint implemen
     public function getExtraHeaders() : array
     {
         return array('Accept' => array('application/json'));
-    }
-    protected function getQueryOptionsResolver() : \Symfony\Component\OptionsResolver\OptionsResolver
-    {
-        $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(array('full'));
-        $optionsResolver->setRequired(array());
-        $optionsResolver->setDefaults(array());
-        $optionsResolver->setAllowedTypes('full', array('bool'));
-        return $optionsResolver;
     }
     /**
      * {@inheritdoc}

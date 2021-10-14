@@ -40,7 +40,7 @@ class RiskScoreHistoryNormalizer implements DenormalizerInterface, NormalizerInt
             $object->setRiskScore($data['risk_score']);
         }
         if (\array_key_exists('date', $data)) {
-            $object->setDate(\DateTime::createFromFormat('Y-m-d', $data['date'])->setTime(0, 0, 0));
+            $object->setDate(\DateTime::createFromFormat('Y-m-d\\TH:i:s.vP', $data['date']));
         }
         return $object;
     }
@@ -51,7 +51,7 @@ class RiskScoreHistoryNormalizer implements DenormalizerInterface, NormalizerInt
             $data['risk_score'] = $object->getRiskScore();
         }
         if (null !== $object->getDate()) {
-            $data['date'] = $object->getDate()->format('Y-m-d');
+            $data['date'] = $object->getDate()->format('Y-m-d\\TH:i:s.vP');
         }
         return $data;
     }
