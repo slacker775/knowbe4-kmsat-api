@@ -11,6 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
+      "KnowBe4\\Kmsat\\Api\\Factory\\": "src/Factory/",
       "KnowBe4\\Kmsat\\Api\\": "generated/"
     }
   },
