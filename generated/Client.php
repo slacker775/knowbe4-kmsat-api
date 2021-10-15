@@ -5,6 +5,15 @@ namespace KnowBe4\Kmsat\Api;
 class Client extends \KnowBe4\Kmsat\Api\Runtime\Client\Client
 {
     /**
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @return null|\KnowBe4\Kmsat\Api\Model\Account|\Psr\Http\Message\ResponseInterface
+     */
+    public function getAccount(string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new \KnowBe4\Kmsat\Api\Endpoint\GetAccount(), $fetch);
+    }
+    /**
      * 
      *
      * @param array $queryParameters {
@@ -12,11 +21,11 @@ class Client extends \KnowBe4\Kmsat\Api\Runtime\Client\Client
      * }
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return null|\KnowBe4\Kmsat\Api\Model\Account|\Psr\Http\Message\ResponseInterface
+     * @return null|\KnowBe4\Kmsat\Api\Model\RiskScoreHistory[]|\Psr\Http\Message\ResponseInterface
      */
-    public function getAccount(array $queryParameters = array(), string $fetch = self::FETCH_OBJECT)
+    public function getAccountRiskScoreHistory(array $queryParameters = array(), string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \KnowBe4\Kmsat\Api\Endpoint\GetAccount($queryParameters), $fetch);
+        return $this->executeEndpoint(new \KnowBe4\Kmsat\Api\Endpoint\GetAccountRiskScoreHistory($queryParameters), $fetch);
     }
     /**
      * 
@@ -24,6 +33,9 @@ class Client extends \KnowBe4\Kmsat\Api\Runtime\Client\Client
      * @param array $queryParameters {
      *     @var int $page 
      *     @var int $per_page 
+     *     @var string $status 
+     *     @var int $group_id 
+     *     @var string $expand 
      * }
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
@@ -48,9 +60,25 @@ class Client extends \KnowBe4\Kmsat\Api\Runtime\Client\Client
     /**
      * 
      *
+     * @param int $id 
+     * @param array $queryParameters {
+     *     @var bool $full 
+     * }
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @return null|\KnowBe4\Kmsat\Api\Model\RiskScoreHistory[]|\Psr\Http\Message\ResponseInterface
+     */
+    public function getUserRiskScoreHistory(int $id, array $queryParameters = array(), string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new \KnowBe4\Kmsat\Api\Endpoint\GetUserRiskScoreHistory($id, $queryParameters), $fetch);
+    }
+    /**
+     * 
+     *
      * @param array $queryParameters {
      *     @var int $page 
      *     @var int $per_page 
+     *     @var string $status 
      * }
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
@@ -87,6 +115,21 @@ class Client extends \KnowBe4\Kmsat\Api\Runtime\Client\Client
     public function getGroupMembers(int $id, array $queryParameters = array(), string $fetch = self::FETCH_OBJECT)
     {
         return $this->executeEndpoint(new \KnowBe4\Kmsat\Api\Endpoint\GetGroupMembers($id, $queryParameters), $fetch);
+    }
+    /**
+     * 
+     *
+     * @param int $id 
+     * @param array $queryParameters {
+     *     @var bool $full 
+     * }
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     *
+     * @return null|\KnowBe4\Kmsat\Api\Model\RiskScoreHistory[]|\Psr\Http\Message\ResponseInterface
+     */
+    public function getGroupRiskScoreHistory(int $id, array $queryParameters = array(), string $fetch = self::FETCH_OBJECT)
+    {
+        return $this->executeEndpoint(new \KnowBe4\Kmsat\Api\Endpoint\GetGroupRiskScoreHistory($id, $queryParameters), $fetch);
     }
     /**
      * 

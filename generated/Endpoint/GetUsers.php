@@ -10,6 +10,9 @@ class GetUsers extends \KnowBe4\Kmsat\Api\Runtime\Client\BaseEndpoint implements
      * @param array $queryParameters {
      *     @var int $page 
      *     @var int $per_page 
+     *     @var string $status 
+     *     @var int $group_id 
+     *     @var string $expand 
      * }
      */
     public function __construct(array $queryParameters = array())
@@ -36,11 +39,14 @@ class GetUsers extends \KnowBe4\Kmsat\Api\Runtime\Client\BaseEndpoint implements
     protected function getQueryOptionsResolver() : \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
-        $optionsResolver->setDefined(array('page', 'per_page'));
+        $optionsResolver->setDefined(array('page', 'per_page', 'status', 'group_id', 'expand'));
         $optionsResolver->setRequired(array());
         $optionsResolver->setDefaults(array('per_page' => 100));
         $optionsResolver->setAllowedTypes('page', array('int'));
         $optionsResolver->setAllowedTypes('per_page', array('int'));
+        $optionsResolver->setAllowedTypes('status', array('string'));
+        $optionsResolver->setAllowedTypes('group_id', array('int'));
+        $optionsResolver->setAllowedTypes('expand', array('string'));
         return $optionsResolver;
     }
     /**

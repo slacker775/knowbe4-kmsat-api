@@ -1,5 +1,5 @@
 # KnowBe4 Training API for PHP
-This library provices access to the KnowBe4 training, phishing, user and group
+This library provides access to the KnowBe4 training, phishing, user and group
 data.  It leverages PSR18 HTTP clients (symfony/http-client or others) to provide 
 flexibility with your project.
 
