@@ -176,8 +176,11 @@ class UserNormalizer implements DenormalizerInterface, NormalizerInterface, Deno
         elseif (\array_key_exists('comment', $data) && $data['comment'] === null) {
             $object->setComment(null);
         }
-        if (\array_key_exists('employee_start_date', $data)) {
+        if (\array_key_exists('employee_start_date', $data) && $data['employee_start_date'] !== null) {
             $object->setEmployeeStartDate(\DateTime::createFromFormat('Y-m-d\\TH:i:s.vP', $data['employee_start_date']));
+        }
+        elseif (\array_key_exists('employee_start_date', $data) && $data['employee_start_date'] === null) {
+            $object->setEmployeeStartDate(null);
         }
         if (\array_key_exists('archived_at', $data) && $data['archived_at'] !== null) {
             $object->setArchivedAt(\DateTime::createFromFormat('Y-m-d\\TH:i:s.vP', $data['archived_at']));

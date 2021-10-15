@@ -1032,6 +1032,7 @@ components:
         employee_start_date:
           type: string
           format: date-time
+          nullable: true
         archived_at:
           type: string
           format: date-time
