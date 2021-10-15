@@ -163,7 +163,7 @@ class User
     /**
      * 
      *
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $employeeStartDate;
     /**
@@ -757,20 +757,20 @@ class User
     /**
      * 
      *
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getEmployeeStartDate() : \DateTime
+    public function getEmployeeStartDate() : ?\DateTime
     {
         return $this->employeeStartDate;
     }
     /**
      * 
      *
-     * @param \DateTime $employeeStartDate
+     * @param \DateTime|null $employeeStartDate
      *
      * @return self
      */
-    public function setEmployeeStartDate(\DateTime $employeeStartDate) : self
+    public function setEmployeeStartDate(?\DateTime $employeeStartDate) : self
     {
         $this->employeeStartDate = $employeeStartDate;
         return $this;
