@@ -5,7 +5,7 @@ namespace KnowBe4\Kmsat\Api\Factory;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\PluginClient;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Jane\OpenApiRuntime\Client\Plugin\AuthenticationRegistry;
+use Jane\Component\OpenApiRuntime\Client\Plugin\AuthenticationRegistry;
 use KnowBe4\Kmsat\Api\Authentication\BearerAuthAuthentication;
 use KnowBe4\Kmsat\Api\Client;
 
