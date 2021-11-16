@@ -16,7 +16,7 @@
     }
   },
   "require-dev": {
-    "jane-php/open-api-3": "~6.3.0",
+    "jane-php/open-api-3": "^7.0",
     "symfony/flex": "^1.15",
     "nyholm/psr7": "^1.4",
     "php-http/logger-plugin": "^1.2",
@@ -29,6 +29,6 @@
     }
   },
   "require": {
-    "jane-php/open-api-runtime": "~6.3.0"
+    "jane-php/open-api-runtime": "^7.0"
   }
 }
